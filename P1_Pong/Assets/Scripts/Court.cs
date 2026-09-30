@@ -24,11 +24,7 @@ public class Court : MonoBehaviour
         Ball ball = collision.gameObject.GetComponent<Ball>();
         if (ball == null) return;
         
-        if (ball == null){
-            Debug.Log("Collision happened, but this is NOT a ball.");
-            return;
-        }
-        Debug.Log("BALL DETECTED!");
+    
 
     // teleport the ball
         ball.transform.position = TeleportPoint.position;
