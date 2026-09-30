@@ -13,13 +13,31 @@ public class Court : MonoBehaviour
 
 // where the ball will teleport
     public Transform TeleportPoint;
+
+    // ball prefav used for the multiplier
+    public GameObject ballPrefab;
+
+    public Transform ballSpawnPoint;
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Ball ball = collision.gameObject.GetComponent<Ball>();
         if (ball == null) return;
+        
+        if (ball == null){
+            Debug.Log("Collision happened, but this is NOT a ball.");
+            return;
+        }
+        Debug.Log("BALL DETECTED!");
 
     // teleport the ball
         ball.transform.position = TeleportPoint.position;
+
+        Instantiate (
+            ballPrefab,
+            ballSpawnPoint.position,
+            Quaternion.identity
+        );
 
         BaseEventData eventData = new BaseEventData(EventSystem.current);
         courtTrigger.Invoke(eventData);
