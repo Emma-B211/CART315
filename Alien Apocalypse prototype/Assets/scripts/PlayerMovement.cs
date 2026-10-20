@@ -1,3 +1,4 @@
+
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -17,53 +18,76 @@ public class PlayerMovement : MonoBehaviour
     private bool isGrounded;
     private int facingDirection = 1;
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-   private void Awake()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
     private void Update()
     {
-        horizontalInput = Input.GetAxisRaw("Horizontal");
-      if(groundCheck != null){
-        isGrounded = Physics2D.OverlapCircle(
-            groundCheck.position,
-            groundCheckRadius,
-            groundLayer
-        );
-      } else {
-        isGrounded = false;
-      }
-   
+        // A moves left; D moves right.
+        horizontalInput = 0f;
 
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded){
+        if (Input.GetKey(KeyCode.A))
+        {
+            horizontalInput = -1f;
+        }
+
+        if (Input.GetKey(KeyCode.D))
+        {
+            horizontalInput = 1f;
+        }
+
+        // Check whether the player is touching the ground.
+        if (groundCheck != null)
+        {
+            isGrounded = Physics2D.OverlapCircle(
+                groundCheck.position,
+                groundCheckRadius,
+                groundLayer
+            );
+        }
+        else
+        {
+            isGrounded = false;
+        }
+
+        // Jump using Space.
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
             rb.linearVelocity = new Vector2(
                 rb.linearVelocity.x,
                 jumpForce
             );
         }
-        if (horizontalInput > 0)
-        facingDirection = 1;
-        else if (horizontalInput < 0)
-        facingDirection = -1;
 
-    // Flip the character sprite without rotation its collider
+        // Face the direction of movement.
+        if (horizontalInput > 0)
+        {
+            facingDirection = 1;
+        }
+        else if (horizontalInput < 0)
+        {
+            facingDirection = -1;
+        }
+
         Vector3 scale = transform.localScale;
         scale.x = Mathf.Abs(scale.x) * facingDirection;
         transform.localScale = scale;
     }
-    private void FixedUpdate(){
+
+    private void FixedUpdate()
+    {
         rb.linearVelocity = new Vector2(
             horizontalInput * moveSpeed,
             rb.linearVelocity.y
         );
     }
 
-    private void OnDrawGizmosSelected(){
-        if (groundCheck == null) return;
+    private void OnDrawGizmosSelected()
+    {
+        if (groundCheck == null)
+            return;
 
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(
@@ -72,4 +96,3 @@ public class PlayerMovement : MonoBehaviour
         );
     }
 }
-
