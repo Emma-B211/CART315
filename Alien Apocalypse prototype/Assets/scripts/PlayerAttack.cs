@@ -49,10 +49,23 @@ public class PlayerAttack : MonoBehaviour
             Debug.Log("Out of ammo! Press R to reload.");
             return;
         }
-        if (projectilePrefab == null || firePoint == null){
-            Debug.LogWarning( "Assign Projectile prefab and fire point.");
-            return;
-        }
+       if (projectilePrefab == null)
+{
+    Debug.LogError(
+        "Projectile Prefab is missing on: " + gameObject.name,
+        this
+    );
+    return;
+}
+
+if (firePoint == null)
+{
+    Debug.LogError(
+        "Fire Point is missing on: " + gameObject.name,
+        this
+    );
+    return;
+}
         Instantiate(
             projectilePrefab,
             firePoint.position,
