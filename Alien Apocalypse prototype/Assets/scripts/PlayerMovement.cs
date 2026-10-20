@@ -28,11 +28,16 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
+      if(groundCheck != null){
         isGrounded = Physics2D.OverlapCircle(
             groundCheck.position,
             groundCheckRadius,
             groundLayer
         );
+      } else {
+        isGrounded = false;
+      }
+   
 
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded){
             rb.linearVelocity = new Vector2(
