@@ -119,6 +119,37 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &29281070
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 29281071}
+  m_Layer: 0
+  m_Name: firePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &29281071
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 29281070}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.578, y: 0.18, z: 0}
+  m_LocalScale: {x: 1, y: 0.65, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1280427571}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &80016933
 GameObject:
   m_ObjectHideFlags: 0
@@ -896,100 +927,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1159131847
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1159131848}
-  - component: {fileID: 1159131850}
-  - component: {fileID: 1159131849}
-  - component: {fileID: 1159131851}
-  m_Layer: 0
-  m_Name: FirePoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1159131848
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1159131847}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.38, y: 0.143, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1280427571}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1159131849
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1159131847}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c66131fcd368435695b45bb03518da3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Projectile
-  speed: 12
-  damage: 1
-  lifetime: 3
---- !u!50 &1159131850
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1159131847}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 3
---- !u!114 &1159131851
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1159131847}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9084b1bc501c043d4ab6baf6cb0e03aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
-  projectilePrefab: {fileID: 1163118508201692643, guid: 70001a192901241e69a6ffae31553497, type: 3}
-  firePoint: {fileID: 1159131848}
-  fireCooldown: 0.3
-  magazineSize: 6
-  reserveAmmo: 18
-  reloadTime: 1.2
 --- !u!1 &1196436751
 GameObject:
   m_ObjectHideFlags: 0
@@ -1023,7 +960,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa32ea22e196247b68e1b863f2df402f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAppearOnMove
-  player: {fileID: 0}
+  player: {fileID: 1280427571}
   movementThreshold: 0.05
 --- !u!114 &1196436753
 MonoBehaviour:
@@ -1393,7 +1330,7 @@ Transform:
   m_LocalScale: {x: 2.5938, y: 2.5065, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1159131848}
+  - {fileID: 29281071}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1280427572
@@ -1408,8 +1345,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9084b1bc501c043d4ab6baf6cb0e03aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
-  projectilePrefab: {fileID: 1163118508201692643, guid: 70001a192901241e69a6ffae31553497, type: 3}
-  firePoint: {fileID: 1159131848}
+  ProjectilePrefab: {fileID: 1163118508201692643, guid: 70001a192901241e69a6ffae31553497, type: 3}
+  firePoint: {fileID: 29281071}
   fireCooldown: 0.3
   magazineSize: 6
   reserveAmmo: 18
@@ -1590,8 +1527,8 @@ Transform:
   m_GameObject: {fileID: 1508143233}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.8747, y: 1.891, z: 0}
-  m_LocalScale: {x: 1.180249, y: 0.8704, z: 1}
+  m_LocalPosition: {x: 9.8384, y: 1.891, z: 0}
+  m_LocalScale: {x: 1.1932317, y: 0.8704, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1911,8 +1848,8 @@ Transform:
   m_GameObject: {fileID: 1725494066}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.24, y: -2.949, z: 0}
-  m_LocalScale: {x: 2.8563, y: 1.5801029, z: 1}
+  m_LocalPosition: {x: -3.24, y: -3.0217, z: 0}
+  m_LocalScale: {x: 2.8563, y: 1.6426387, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -2186,8 +2123,8 @@ Transform:
   m_GameObject: {fileID: 2128539911}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.22, y: 1.852, z: 0}
-  m_LocalScale: {x: 1, y: 0.8431, z: 1}
+  m_LocalPosition: {x: -11.0928, y: 1.8314, z: 0}
+  m_LocalScale: {x: 1.0678, y: 0.8487108, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
