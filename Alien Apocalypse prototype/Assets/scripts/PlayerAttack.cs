@@ -80,7 +80,7 @@ if (firePoint == null)
     }
     System.Collections.IEnumerator Reload(){
         if(currentAmmo == magazineSize || reserveAmmo <= 0)
-        yield break;
+        // yield break;
 
         isReloading = true;
         Debug.Log("Reloading...");
