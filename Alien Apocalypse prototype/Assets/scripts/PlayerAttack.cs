@@ -4,10 +4,10 @@ public class PlayerAttack : MonoBehaviour
 {
 
     [Header("Attack")]
-    public GameObject projectilePrefab;
+    public GameObject ProjectilePrefab;
     public Transform firePoint;
     public float fireCooldown = 0.3f;
-
+    
     [Header("Ammo")]
     public int magazineSize = 6;
     public int reserveAmmo = 18;
@@ -49,7 +49,7 @@ public class PlayerAttack : MonoBehaviour
             Debug.Log("Out of ammo! Press R to reload.");
             return;
         }
-       if (projectilePrefab == null)
+       if (ProjectilePrefab == null)
 {
     Debug.LogError(
         "Projectile Prefab is missing on: " + gameObject.name,
@@ -67,7 +67,7 @@ if (firePoint == null)
     return;
 }
         Instantiate(
-            projectilePrefab,
+            ProjectilePrefab,
             firePoint.position,
             firePoint.rotation
         );
