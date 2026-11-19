@@ -15,7 +15,6 @@ public class AxePickup : MonoBehaviour
     private GameObject heldAxe;
     private bool isLookingAtAxe;
 
-    // Allows other scripts to check if the player is holding the axe
     public bool HasAxe
     {
         get { return heldAxe != null; }
@@ -29,13 +28,9 @@ public class AxePickup : MonoBehaviour
             Keyboard.current.eKey.wasPressedThisFrame)
         {
             if (heldAxe == null)
-            {
                 TryPickupAxe();
-            }
             else
-            {
                 DropAxe();
-            }
         }
     }
 
@@ -43,7 +38,7 @@ public class AxePickup : MonoBehaviour
     {
         isLookingAtAxe = false;
 
-        if (heldAxe != null || playerCamera == null)
+        if (HasAxe || playerCamera == null)
             return;
 
         Ray ray = new Ray(
@@ -80,6 +75,16 @@ public class AxePickup : MonoBehaviour
             {
                 heldAxe = hit.collider.gameObject;
 
+                // DISABLE ALL AXE COLLIDERS
+                Collider[] colliders =
+                    heldAxe.GetComponentsInChildren<Collider>(true);
+
+                foreach (Collider col in colliders)
+                {
+                    col.enabled = false;
+                }
+
+                // DISABLE AXE PHYSICS
                 Rigidbody rb = heldAxe.GetComponent<Rigidbody>();
 
                 if (rb != null)
@@ -88,39 +93,40 @@ public class AxePickup : MonoBehaviour
                     rb.detectCollisions = false;
                 }
 
-                Collider[] colliders =
-                    heldAxe.GetComponentsInChildren<Collider>();
-
-                foreach (Collider col in colliders)
-                {
-                    col.enabled = false;
-                }
-
+                // ATTACH AXE TO CAMERA
                 heldAxe.transform.SetParent(axeHoldPoint);
                 heldAxe.transform.localPosition = Vector3.zero;
                 heldAxe.transform.localRotation = Quaternion.identity;
 
-                Debug.Log("Axe picked up!");
+                isLookingAtAxe = false;
+
+                Debug.Log("Axe picked up! All colliders disabled.");
             }
         }
     }
 
     void DropAxe()
     {
+        if (heldAxe == null)
+            return;
+
+        // DETACH AXE FROM CAMERA
         heldAxe.transform.SetParent(null);
 
         heldAxe.transform.position =
             playerCamera.transform.position +
             playerCamera.transform.forward * 1.5f;
 
+        // RE-ENABLE ALL AXE COLLIDERS
         Collider[] colliders =
-            heldAxe.GetComponentsInChildren<Collider>();
+            heldAxe.GetComponentsInChildren<Collider>(true);
 
         foreach (Collider col in colliders)
         {
             col.enabled = true;
         }
 
+        // RESTORE AXE PHYSICS
         Rigidbody rb = heldAxe.GetComponent<Rigidbody>();
 
         if (rb != null)
@@ -130,13 +136,14 @@ public class AxePickup : MonoBehaviour
         }
 
         heldAxe = null;
+        isLookingAtAxe = false;
 
-        Debug.Log("Axe dropped!");
+        Debug.Log("Axe dropped! All colliders enabled.");
     }
 
     void OnGUI()
     {
-        if (!showPickupPrompt || !isLookingAtAxe)
+        if (!showPickupPrompt || !isLookingAtAxe || HasAxe)
             return;
 
         GUIStyle promptStyle = new GUIStyle();

@@ -3,11 +3,19 @@ using UnityEngine;
 
 public class WoodInventory : MonoBehaviour
 {
+    [Header("Wood Inventory")]
     public int woodCount = 0;
+
+    // Allows other scripts to read the current wood amount
+    public int CurrentWood
+    {
+        get { return woodCount; }
+    }
 
     public void AddWood(int amount)
     {
         woodCount += amount;
+
         Debug.Log("Wood collected: " + woodCount);
     }
 
@@ -20,6 +28,9 @@ public class WoodInventory : MonoBehaviour
         }
 
         woodCount -= amount;
+
+        Debug.Log("Wood used: " + woodCount);
+
         return true;
     }
 
