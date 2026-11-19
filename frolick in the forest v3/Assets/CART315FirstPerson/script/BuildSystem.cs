@@ -88,10 +88,10 @@ public class BuildSystem : MonoBehaviour
             }
 
             // Align the building with the ground surface
-            Quaternion rotation = Quaternion.FromToRotation(
-                Vector3.up,
-                hit.normal
-            );
+           Quaternion rotation = Quaternion.FromToRotation(
+            Vector3.up,
+            hit.normal
+);
 
             // Slightly lift the building above the ground
             Vector3 placementPosition = hit.point +

@@ -4,11 +4,19 @@ using UnityEngine.InputSystem;
 
 public class AxeChop : MonoBehaviour
 {
+    [Header("References")]
     public Camera playerCamera;
     public AxePickup axePickup;
 
+    [Header("Chopping Settings")]
     public float chopRange = 4f;
     public int chopDamage = 1;
+
+    [Header("Chopping Audio")]
+    public AudioSource audioSource;
+    public AudioClip chopSound;
+    [Range(0f, 1f)]
+    public float chopVolume = 1f;
 
     private TreeHealth currentTree;
 
@@ -22,7 +30,19 @@ public class AxeChop : MonoBehaviour
             Mouse.current != null &&
             Mouse.current.leftButton.wasPressedThisFrame)
         {
-            currentTree.TakeDamage(chopDamage);
+            ChopTree();
+        }
+    }
+
+    void ChopTree()
+    {
+        // Apply damage to the tree
+        currentTree.TakeDamage(chopDamage);
+
+        // Play chopping sound
+        if (audioSource != null && chopSound != null)
+        {
+            audioSource.PlayOneShot(chopSound, chopVolume);
         }
     }
 
