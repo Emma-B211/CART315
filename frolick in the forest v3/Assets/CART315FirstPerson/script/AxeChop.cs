@@ -4,35 +4,25 @@ using UnityEngine.InputSystem;
 
 public class AxeChop : MonoBehaviour
 {
-    [Header("Chopping Settings")]
     public Camera playerCamera;
-    public float chopRange = 3f;
-    public float chopCooldown = 0.8f;
+    public AxePickup axePickup;
+
+    public float chopRange = 4f;
     public int chopDamage = 1;
 
-    [Header("Prompt Settings")]
-    public bool showChopPrompt = true;
-
-    private AxePickup axePickup;
     private TreeHealth currentTree;
-    private float nextChopTime;
-
-    void Start()
-    {
-        axePickup = GetComponent<AxePickup>();
-
-        if (playerCamera == null)
-            playerCamera = Camera.main;
-    }
 
     void Update()
     {
         CheckForTree();
 
-        if (Mouse.current != null &&
+        if (currentTree != null &&
+            axePickup != null &&
+            axePickup.HasAxe &&
+            Mouse.current != null &&
             Mouse.current.leftButton.wasPressedThisFrame)
         {
-            Chop();
+            currentTree.TakeDamage(chopDamage);
         }
     }
 
@@ -48,65 +38,31 @@ public class AxeChop : MonoBehaviour
             playerCamera.transform.forward
         );
 
-        RaycastHit hit;
-
-       if (Physics.Raycast(ray, out hit, chopRange))
-{
-    currentTree = hit.collider.GetComponentInParent<TreeHealth>();
-}
-    }
-
-    void Chop()
-    {
-        if (axePickup == null || !axePickup.HasAxe)
+        if (Physics.Raycast(ray, out RaycastHit hit, chopRange))
         {
-            Debug.Log("You need to pick up the axe first!");
-            return;
+            currentTree = hit.collider.GetComponentInParent<TreeHealth>();
         }
-
-        if (currentTree == null)
-            return;
-
-        if (Time.time < nextChopTime)
-            return;
-
-        nextChopTime = Time.time + chopCooldown;
-
-        currentTree.TakeDamage(chopDamage);
-
-        Debug.Log("Chopped tree!");
     }
 
     void OnGUI()
     {
-        if (!showChopPrompt || currentTree == null)
+        if (currentTree == null)
             return;
 
         GUIStyle style = new GUIStyle();
-        style.fontSize = 22;
+        style.fontSize = 20;
+        style.fontStyle = FontStyle.Bold;
         style.normal.textColor = Color.white;
         style.alignment = TextAnchor.MiddleCenter;
-        style.fontStyle = FontStyle.Bold;
 
-        string prompt;
+        string message = "Pick Up an Axe to Chop";
 
         if (axePickup != null && axePickup.HasAxe)
-        {
-            prompt = "Left Click to Chop Tree";
-        }
-        else
-        {
-            prompt = "Pick Up an Axe to Chop";
-        }
+            message = "Left Click to Chop Tree";
 
         GUI.Label(
-            new Rect(
-                Screen.width / 2 - 180,
-                Screen.height / 2 + 40,
-                360,
-                40
-            ),
-            prompt,
+            new Rect(Screen.width / 2 - 150, Screen.height / 2 + 40, 300, 40),
+            message,
             style
         );
     }

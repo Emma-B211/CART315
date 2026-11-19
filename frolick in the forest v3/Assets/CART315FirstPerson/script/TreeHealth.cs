@@ -11,6 +11,18 @@ public class TreeHealth : MonoBehaviour
     public int logsToDrop = 3;
     public float dropRadius = 1.5f;
 
+    void Awake()
+    {
+        // Ensure the choppable tree has an enabled collider
+        Collider[] treeColliders =
+            GetComponentsInChildren<Collider>(true);
+
+        foreach (Collider col in treeColliders)
+        {
+            col.enabled = true;
+        }
+    }
+
     public void TakeDamage(int damage)
     {
         treeHealth -= damage;
@@ -34,12 +46,17 @@ public class TreeHealth : MonoBehaviour
 
         for (int i = 0; i < logsToDrop; i++)
         {
-            Vector2 randomPosition = Random.insideUnitCircle * dropRadius;
+            Vector2 randomPosition =
+                Random.insideUnitCircle * dropRadius;
 
             Vector3 spawnPosition = transform.position +
                 new Vector3(randomPosition.x, 0.5f, randomPosition.y);
 
-            Instantiate(logPrefab, spawnPosition, Random.rotation);
+            Instantiate(
+                logPrefab,
+                spawnPosition,
+                Random.rotation
+            );
         }
     }
 }
