@@ -31,19 +31,13 @@ public class BuildSystem : MonoBehaviour
             return;
 
         if (Keyboard.current.digit1Key.wasPressedThisFrame)
-        {
             SelectBuilding(benchPrefab, benchCost, "Bench");
-        }
 
         if (Keyboard.current.digit2Key.wasPressedThisFrame)
-        {
             SelectBuilding(campfirePrefab, campfireCost, "Campfire");
-        }
 
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
-        {
             CancelBuilding();
-        }
 
         if (selectedPrefab != null &&
             Mouse.current.leftButton.wasPressedThisFrame)
@@ -70,39 +64,59 @@ public class BuildSystem : MonoBehaviour
     void PlaceBuilding()
     {
         if (playerCamera == null || inventory == null)
+        {
+            Debug.LogWarning("Player Camera or Inventory is missing!");
             return;
+        }
 
         Ray ray = new Ray(
             playerCamera.transform.position,
             playerCamera.transform.forward
         );
 
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, buildRange, groundLayer))
+        if (Physics.Raycast(ray, out RaycastHit hit, buildRange, groundLayer))
         {
-            if (!inventory.UseWood(selectedCost))
+            if (inventory.CurrentWood < selectedCost)
             {
                 Debug.Log("Not enough wood!");
                 return;
             }
 
-            // Align the building with the ground surface
-           Quaternion rotation = Quaternion.FromToRotation(
-            Vector3.up,
-            hit.normal
-);
+            Vector3 placementPosition =
+                hit.point + Vector3.up * placementOffset;
 
-            // Slightly lift the building above the ground
-            Vector3 placementPosition = hit.point +
-                hit.normal * placementOffset;
+           GameObject builtObject;
 
-            // Place the building
-            Instantiate(
-                selectedPrefab,
-                placementPosition,
-                rotation
-            );
+if (selectedPrefab == campfirePrefab)
+{
+    // Correct campfire rotation.
+    Quaternion campfireRotation = Quaternion.Euler(
+        -39.454f,
+        -1.084f,
+        1.002f
+    );
+
+    builtObject = Instantiate(
+        selectedPrefab,
+        placementPosition,
+        campfireRotation
+    );
+}
+else
+{
+    // Preserve the bench's original rotation.
+    builtObject = Instantiate(
+        selectedPrefab,
+        placementPosition,
+        selectedPrefab.transform.rotation
+    );
+}
+
+            if (!inventory.UseWood(selectedCost))
+            {
+                Destroy(builtObject);
+                return;
+            }
 
             Debug.Log(selectedName + " placed!");
 
