@@ -5,28 +5,20 @@ using UnityEngine.InputSystem;
 public class LogPickup : MonoBehaviour
 {
     public float pickupRange = 3f;
+    public Camera playerCamera;
+    public int woodAmount = 1;
 
-    private Camera playerCamera;
     private WoodInventory inventory;
 
     void Start()
     {
-        playerCamera = Camera.main;
+        if (playerCamera == null)
+            playerCamera = Camera.main;
+
         inventory = FindFirstObjectByType<WoodInventory>();
     }
 
     void Update()
-    {
-        if (Keyboard.current == null)
-            return;
-
-        if (Keyboard.current.fKey.wasPressedThisFrame)
-        {
-            CollectLog();
-        }
-    }
-
-    void CollectLog()
     {
         if (playerCamera == null || inventory == null)
             return;
@@ -36,19 +28,23 @@ public class LogPickup : MonoBehaviour
             playerCamera.transform.forward
         );
 
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, pickupRange))
+        if (Physics.Raycast(ray, out RaycastHit hit, pickupRange))
         {
             LogPickup log = hit.collider.GetComponentInParent<LogPickup>();
 
-            if (log != this)
-                return;
-
-            inventory.AddWood(1);
-            Destroy(gameObject);
-
-            Debug.Log("Collected one log!");
+            if (log == this && Keyboard.current != null &&
+                Keyboard.current.fKey.wasPressedThisFrame)
+            {
+                CollectLog();
+            }
         }
+    }
+
+    void CollectLog()
+    {
+        inventory.AddWood(woodAmount);
+        Debug.Log("Collected " + woodAmount + " wood!");
+
+        Destroy(gameObject);
     }
 }

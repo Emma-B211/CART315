@@ -19,6 +19,7 @@ public class BuildSystem : MonoBehaviour
     [Header("Placement")]
     public float buildRange = 5f;
     public LayerMask groundLayer;
+    public float placementOffset = 0.02f;
 
     private GameObject selectedPrefab;
     private int selectedCost;
@@ -81,17 +82,35 @@ public class BuildSystem : MonoBehaviour
         if (Physics.Raycast(ray, out hit, buildRange, groundLayer))
         {
             if (!inventory.UseWood(selectedCost))
+            {
+                Debug.Log("Not enough wood!");
                 return;
+            }
 
+            // Align the building with the ground surface
+            Quaternion rotation = Quaternion.FromToRotation(
+                Vector3.up,
+                hit.normal
+            );
+
+            // Slightly lift the building above the ground
+            Vector3 placementPosition = hit.point +
+                hit.normal * placementOffset;
+
+            // Place the building
             Instantiate(
                 selectedPrefab,
-                hit.point,
-                Quaternion.identity
+                placementPosition,
+                rotation
             );
 
             Debug.Log(selectedName + " placed!");
 
             CancelBuilding();
+        }
+        else
+        {
+            Debug.Log("No ground detected. Aim at the ground.");
         }
     }
 
